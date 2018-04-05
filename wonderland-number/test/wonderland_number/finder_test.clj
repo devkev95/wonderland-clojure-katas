@@ -1,5 +1,5 @@
 (ns wonderland-number.finder-test
-  (:require [clojure.test :refer :all]
+    (:require [clojure.test :refer :all]
             [wonderland-number.finder :refer :all]))
 
 (defn hasAllTheSameDigits? [n1 n2]
