@@ -9,13 +9,24 @@
                (read-string)))
 
 (defn linked-word [word word-list]
-  (some #(when (= (count (set/difference (into #{} (seq %))
-                                         (into #{} (seq word)))) 1) %)
-        word-list))
+  (some
+   #(when
+        (=
+         (count
+          (set/difference (into #{} (seq %))
+                          (into #{} (seq word))))
+         1)
+      [%])
+   word-list))
 
 (defn doublets [word1 word2]
-  (let [n (count word1) v (cons word1 (filter #(= (count %) n)
+  (let [n (count word1)
+        v (cons word1 (filter #(= (count %) n)
                               (remove #{word1} words)))]
-    (tree-seq #(and (linked-word (% 0) %) (not= (% 0) word2))
-              #(cons (linked-word (% 0) (rest %))
-                (remove #{(% 0)} (rest %))) v)))
+    (tree-seq
+     #(and
+       (linked-word (first %) %)
+       (not= (first %) word2))
+     #(vec (cons (first (linked-word (first %) (rest %)))
+                 (remove #{(first %)} (rest %))))
+     v)))
