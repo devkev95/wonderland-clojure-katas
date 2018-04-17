@@ -27,7 +27,7 @@
             right-bank (map last crossing-plan)]
         (testing "the fox and the goose should never be left alone together"
           (is (empty?
-               (filter #(= % #{:fox :goose}) (concat left-bank right-bank)))))
+                (filter #(= % #{:fox :goose}) (concat left-bank right-bank)))))
         (testing "the goose and the corn should never be left alone together"
           (is (empty?
                (filter #(= % #{:goose :corn}) (concat left-bank right-bank)))))))
@@ -42,4 +42,3 @@
         (reduce validate-move left-moves)
         (reduce validate-move middle-moves)
         (reduce validate-move right-moves )))))
-

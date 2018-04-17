@@ -3,7 +3,6 @@
 
 (defn char-idx [c]
   (- (int c) 97))
-
 (defn encode [keyword message]
   (apply str (map #(char (+ (mod (+ (char-idx %1) (char-idx %2)) 26)
                             97)) message (cycle keyword))))
