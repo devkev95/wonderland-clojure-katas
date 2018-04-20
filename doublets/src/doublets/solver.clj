@@ -1,32 +1,33 @@
 (ns doublets.solver
   (:require [clojure.java.io :as io]
             [clojure.edn :as edn]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [clojure.string :as s]))
 
 (def words (-> "words.edn"
                (io/resource)
                (slurp)
                (read-string)))
 
-(defn linked-word [word word-list]
-  (some
-   #(when
-        (=
-         (count
-          (set/difference (into #{} (seq %))
-                          (into #{} (seq word))))
-         1)
-      [%])
-   word-list))
+(defn word-buckets [word-list]
+  (loop [words word-list word (first word-list) res {}]
+    (if (nil? word)
+      res
+      (let [pairs
+            (map (fn [w]
+                   (let [n (count w)]
+                     (map #([(keyword
+                              (apply format "%s_%s"
+                                     (s/split w (-> w
+                                                    (get %)
+                                                    (str)
+                                                    (re-pattern))))) w])
+                            (take n (iterate inc 0)))))
+                 words)]
+        ))))
+
+(defn words-graph [word-list])
 
 (defn doublets [word1 word2]
-  (let [n (count word1)
-        v (cons word1 (filter #(= (count %) n)
-                              (remove #{word1} words)))]
-    (tree-seq
-     #(and
-       (linked-word (first %) %)
-       (not= (first %) word2))
-     #(vec (cons (first (linked-word (first %) (rest %)))
-                 (remove #{(first %)} (rest %))))
-     v)))
+  (let [words-list (filter #())])
+  )
